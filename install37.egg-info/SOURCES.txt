@@ -1,0 +1,11 @@
+README.md
+setup.py
+install37/__init__.py
+install37/__meta__.py
+install37/build.py
+install37/setup.py
+install37/utils.py
+install37.egg-info/PKG-INFO
+install37.egg-info/SOURCES.txt
+install37.egg-info/dependency_links.txt
+install37.egg-info/top_level.txt
