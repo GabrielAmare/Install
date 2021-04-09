@@ -1,5 +1,7 @@
 import os
 import sys
+import time
+import shutil
 import setuptools
 import pkg_resources
 from .utils import write_meta
@@ -34,11 +36,25 @@ def setup(name, version, author, author_email, description, url, packages, class
     python_dir = os.path.dirname(sys.executable) + "\\python.exe"
     os.system(python_dir + ' -m twine upload --repository testpypi dist/*')
 
+    major, minor, patch = version
+
     if update_type == "patch":
-        write_meta(name=name, version=(version[0], version[1], version[2] + 1))
+        patch += 1
     elif update_type == "minor":
-        write_meta(name=name, version=(version[0], version[1] + 1, 0))
+        patch = 0
+        minor += 1
     elif update_type == "major":
-        write_meta(name=name, version=(version[0] + 1, 0, 0))
+        patch = 0
+        minor = 0
+        major += 1
     else:
         raise ValueError(update_type)
+
+    write_meta(name=name, version=(major, minor, patch))
+
+    time.sleep(2)
+    os.system(python_dir + f" -m pip install -i https://test.pypi.org/simple/ {name}=={version[0]}.{version[1]}.{version[2]}")
+
+    shutil.rmtree("dist")
+    shutil.rmtree("build")
+    shutil.rmtree(f"{name}.egg-info")
