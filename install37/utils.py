@@ -1,6 +1,10 @@
 import os
 
 
+def indent(text: str, prefix: str = "\t"):
+    return "\n".join(prefix + line for line in text.split("\n"))
+
+
 def write(fp: str, content: str):
     with open(fp, mode="w", encoding="utf-8") as file:
         file.write(content.strip() + "\n")
@@ -12,12 +16,24 @@ __version__ = ({version[0]}, {version[1]}, {version[2]})
 """)
 
 
+def write_init(name: str, description: str):
+    write(os.path.join(name, "__init__.py"), f"""
+'''
+{name} :
+{indent(description)}
+'''
+""")
+
+
 def write_requirements():
     write("requirements.txt", "")
 
 
-def write_setup(name: str, author: str, author_email: str, description: str = ""):
+def write_setup(name: str, author: str, author_email: str, description: str = "", author_github: str = ""):
     root = os.path.split(os.path.abspath(os.curdir))[-1]
+
+    if not author_github:
+        author_github = f"https://github.com/{author.replace(' ', '')}"
 
     write("setup.py", f"""
 from install37 import setup
@@ -30,7 +46,7 @@ if __name__ == "__main__":
         author="{author}", 
         author_email="{author_email}",
         description="{description}", 
-        url="https://github.com/{author.replace(' ', '')}/{root}", 
+        url="{author_github}/{root}", 
         packages=["{name}"], 
         classifiers=[], 
         python_requires=">=3.7"
