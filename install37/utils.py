@@ -1,7 +1,7 @@
 import os
 
 
-def indent(text: str, prefix: str = "\t"):
+def indent(text: str, prefix: str = "    "):
     return "\n".join(prefix + line for line in text.split("\n"))
 
 
@@ -18,10 +18,10 @@ __version__ = ({version[0]}, {version[1]}, {version[2]})
 
 def write_init(name: str, description: str):
     write(os.path.join(name, "__init__.py"), f"""
-'''
+\"\"\"
 {name} :
 {indent(description)}
-'''
+\"\"\"
 """)
 
 

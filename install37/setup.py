@@ -53,7 +53,7 @@ def setup(name, version, author, author_email, description, url, packages, class
     write_meta(name=name, version=(major, minor, patch))
 
     time.sleep(2)
-    os.system(python_dir + f" -m pip install -i https://test.pypi.org/simple/ {name}=={version[0]}.{version[1]}.{version[2]}")
+    os.system(python_dir + f" -m pip install --force-reinstall -i https://test.pypi.org/simple/ {name}=={version[0]}.{version[1]}.{version[2]}")
 
     shutil.rmtree("dist")
     shutil.rmtree("build")
